@@ -14,11 +14,11 @@ import java.util.List;
 public class Localizer{
     public static DcMotor podL, podR, podM;
     HardwareMap hardwareMap;
-    public static double C = (35 * 3.14)/8192;
-    public static double Ly = 154.1;
-    public static double Ry = -151.4;
-    public static double Bx = 35;
-
+    public static double C = (35 * 3.14)/8192; // (r*pi)/N(encoder counts for 1 loop)
+    public static double Ly = 154.1; // distance between L wheels and y
+    public static double Ry = -151.4; // distance between R wheels and y
+    public static double Bx = 35; // distance between center wheel and x
+    // initial values
     public static double X = 0;
     public static double Y = 0;
     public static double theta = 0;
@@ -69,20 +69,20 @@ public class Localizer{
         L = -podL.getCurrentPosition();
         R = -podR.getCurrentPosition();
         M = podM.getCurrentPosition();
-
+        // encoder deltas
         dL = (L-pL)*C;
         dR = (R-pR)*C;
         dM = (M-pM)*C;
-
+        // update previous readings
         pL = L;
         pR = R;
         pM = M;
+        // Calculate
+        double fwd = (dR*Ly-dL*Ry)/(Ly-Ry); // forward
+        double dA = (dR-dL)/(Ly-Ry); // angular
+        double str = dM - Bx*dA; // strafe
 
-        double fwd = (dR*Ly-dL*Ry)/(Ly-Ry);
-        double dA = (dR-dL)/(Ly-Ry);
-        double str = dM - Bx*dA;
-
-        if(dA!=0) {
+        if(dA!=0) { // arc based calculation
             double r0 = fwd / dA;
             double r1 = str / dA;
             double rX = r0*Math.sin(dA) - r1*(1 - Math.cos(dA));
@@ -90,11 +90,11 @@ public class Localizer{
 
             dX = rX*Math.cos(theta) - rY*Math.sin(theta);
             dY = rX*Math.sin(theta) + rY*Math.cos(theta);
-        }else{
+        }else{ // straight
             dX = fwd*Math.cos(theta) - str*Math.sin(theta);
             dY = fwd*Math.sin(theta) + str*Math.cos(theta);
         }
-
+        // update current position
         X += dX;
         Y += dY;
         theta += dA;
@@ -102,7 +102,7 @@ public class Localizer{
     }
 
     public static double angleWrap(double radians) {
-
+        // keep radian within -PI to PI
         while (radians > Math.PI) {
             radians -= 2 * Math.PI;
         }
@@ -113,6 +113,7 @@ public class Localizer{
     }
 
     public static ArrayList<Point> intersect(Point center, double r, Point line1, Point line2) {
+        // find intersection of circle center-r to line line1-line2
         ArrayList<Point> all = new ArrayList<>();
         if(line2.x-line1.x == 0){
             double y1 = Math.sqrt(Math.pow(r,2)-Math.pow(line1.x - center.x, 2));
@@ -137,8 +138,9 @@ public class Localizer{
 
 
         try{
-            double xRoot1 = (-quadB + Math.sqrt(Math.pow(quadB, 2) - 4 * quadA *quadC))/(2 * quadA);
-            double xRoot2 = (-quadB - Math.sqrt(Math.pow(quadB, 2) - 4 * quadA *quadC))/(2 * quadA);
+            double delta = Math.sqrt(Math.pow(quadB, 2) - 4 * quadA *quadC);
+            double xRoot1 = (-quadB + delta)/(2 * quadA);
+            double xRoot2 = (-quadB - delta)/(2 * quadA);
             double yRoot1 = m1 * (xRoot1 - x1) + y1;
             double yRoot2 = m1 * (xRoot2 - x1) + y1;
 
