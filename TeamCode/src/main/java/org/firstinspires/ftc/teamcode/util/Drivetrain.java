@@ -59,10 +59,10 @@ public class Drivetrain{
 
         curvePoint p1 = path.get(path.size()-1);
         curvePoint p2 = path.get(path.size()-2);
-        double m = (p2.y - p1.y)/(p2.x - p1.x);
+        double m = (p2.y - p1.y)/(p2.x - p1.x); // potential 0 division error
         double b = p1.y - m*p1.x;
         double r = 20;
-
+        // solve y=mx+b and x^2+y^2=r^2
         double xRoot1 = (-m*b + Math.sqrt(Math.pow(r,2) + Math.pow(r,2)*Math.pow(m,2) - Math.pow(b,2)))/(Math.pow(m,2) + 1);
         double xRoot2 = (-m*b - Math.sqrt(Math.pow(r,2) + Math.pow(r,2)*Math.pow(m,2) - Math.pow(b,2)))/(Math.pow(m,2) + 1);
 

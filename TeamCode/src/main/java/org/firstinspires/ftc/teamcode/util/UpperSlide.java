@@ -93,7 +93,7 @@ public class UpperSlide {
     }
     public double PID(double refrence, double state) {
         double error = refrence - state;
-        integralSum += error * timer.seconds();
+        integralSum += error * timer.seconds(); //
         double derivative = (error - lastError) / (timer.seconds());
         lastError = error;
         timer.reset();
