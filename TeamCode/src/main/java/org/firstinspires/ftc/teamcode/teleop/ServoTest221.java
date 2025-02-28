@@ -27,47 +27,36 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 @TeleOp(group="TeleOp")
 public class ServoTest221 extends LinearOpMode {
-    // Servo declarations
-    ServoImplEx armLeft, armRight, clawServo, frontServo, turnHeadServo;
-
-    // PWM ranges for different servos (500-2500 is full range)
-    PwmControl.PwmRange armRange = new PwmControl.PwmRange(500, 1250);    // 0: down, 1: up
-    PwmControl.PwmRange clawRange = new PwmControl.PwmRange(500, 1150);   // 0: open, 1: close
-    PwmControl.PwmRange frontRange = new PwmControl.PwmRange(500, 2500);  // 0: down, 1: up
-    PwmControl.PwmRange turnHeadRange = new PwmControl.PwmRange(500, 2500); // Full range for head rotation
-
+    ServoImplEx long1, long2, claw, front, turnhead;
+    PwmControl.PwmRange longrange = new PwmControl.PwmRange(500,  1250);
+    PwmControl.PwmRange clawrange = new PwmControl.PwmRange(500, 1150);
+    PwmControl.PwmRange fullrange = new PwmControl.PwmRange(500, 2500);
     @Override
     public void runOpMode() {
-        // Initialize servos
-        armLeft = hardwareMap.get(ServoImplEx.class, "long1");
-        armRight = hardwareMap.get(ServoImplEx.class, "long2");
-        clawServo = hardwareMap.get(ServoImplEx.class, "claw");
-        frontServo = hardwareMap.get(ServoImplEx.class, "front");
-        turnHeadServo = hardwareMap.get(ServoImplEx.class, "turnhead");
-
-        // Set servo directions
-        armLeft.setDirection(Servo.Direction.FORWARD);
-        armRight.setDirection(Servo.Direction.REVERSE);
-        clawServo.setDirection(Servo.Direction.FORWARD);
-        frontServo.setDirection(Servo.Direction.FORWARD);
-        turnHeadServo.setDirection(Servo.Direction.FORWARD);
-
-        // Set PWM ranges for each servo
-        armLeft.setPwmRange(armRange);
-        armRight.setPwmRange(armRange);
-        clawServo.setPwmRange(clawRange);
-        turnHeadServo.setPwmRange(turnHeadRange);
-        frontServo.setPwmRange(frontRange);
-
+        long1 = hardwareMap.get(ServoImplEx.class, "long1");
+        long2 = hardwareMap.get(ServoImplEx.class, "long2");
+        claw = hardwareMap.get(ServoImplEx.class, "claw");
+        front = hardwareMap.get(ServoImplEx.class, "front");
+        turnhead = hardwareMap.get(ServoImplEx.class, "turnhead");
+        long1.setDirection(Servo.Direction.FORWARD);
+        long2.setDirection(Servo.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.FORWARD);
+        front.setDirection(Servo.Direction.FORWARD);
+        turnhead.setDirection(Servo.Direction.FORWARD);
+        long1.setPwmRange(longrange);
+        long2.setPwmRange(longrange);
+        claw.setPwmRange(clawrange);
+        turnhead.setPwmRange(fullrange);
+        front.setPwmRange(fullrange);
         waitForStart();
 
         while (opModeIsActive()) {
-            // Control logic (currently commented out)
-//            armLeft.setPosition(gamepad1.left_stick_y);
-//            armRight.setPosition(gamepad1.left_stick_y);
-//            turnHeadServo.setPosition(gamepad1.right_stick_x);
-//            frontServo.setPosition(gamepad1.right_stick_y);
-//            clawServo.setPosition(gamepad1.left_trigger);
+            long1.setPosition(gamepad1.left_stick_y);
+            long2.setPosition(gamepad1.left_stick_y);
+            turnhead.setPosition(gamepad1.right_stick_x);
+            front.setPosition(gamepad1.right_stick_y);
+            claw.setPosition(gamepad1.left_trigger);
+
         }
     }
 }
