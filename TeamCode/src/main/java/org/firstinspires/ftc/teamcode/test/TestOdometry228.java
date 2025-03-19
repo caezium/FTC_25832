@@ -42,8 +42,8 @@ public class TestOdometry228 extends LinearOpMode {
             telemetry.addData("Y", Localizer2802.Y);
             telemetry.addData("Heading", Localizer2802.angleWrap(Localizer2802.theta));
 
-            telemetry.addData("Hertz", 1 / elapsedtime.seconds());
-            telemetry.addData("Loop Time", elapsedtime.seconds());
+            telemetry.addData("Recording Rate (Hz)", 1 / elapsedtime.seconds());
+            telemetry.addData("Loop Time (ms)", elapsedtime.milliseconds());
             telemetry.update();
             elapsedtime.reset();
 
