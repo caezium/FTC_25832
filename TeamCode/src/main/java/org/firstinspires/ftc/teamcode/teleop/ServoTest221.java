@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 @TeleOp(group="TeleOp")
 public class ServoTest221 extends LinearOpMode {
     ServoImplEx long1, long2, claw, front, turnhead;
-    PwmControl.PwmRange longrange = new PwmControl.PwmRange(500,  1250);
+    PwmControl.PwmRange longrange = new PwmControl.PwmRange(500, 1250);
     PwmControl.PwmRange clawrange = new PwmControl.PwmRange(500, 1150);
     PwmControl.PwmRange fullrange = new PwmControl.PwmRange(500, 2500);
     @Override
