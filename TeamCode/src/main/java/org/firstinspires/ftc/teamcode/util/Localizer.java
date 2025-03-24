@@ -15,9 +15,9 @@ public class Localizer{
     public static DcMotor podL, podR, podM;
     HardwareMap hardwareMap;
     public static double C = (35 * 3.14)/8192; // (r*pi)/N(encoder counts for 1 loop)
-    public static double Ly = 154.1; // distance between L wheels and y
-    public static double Ry = -151.4; // distance between R wheels and y
-    public static double Bx = 35; // distance between center wheel and x
+    public static double Ly = 129.5; // distance between L wheels and y
+    public static double Ry = -138.4; // distance between R wheels and y
+    public static double Bx = 44.5; // distance between center wheel and x
     // initial values
     public static double X = 0;
     public static double Y = 0;

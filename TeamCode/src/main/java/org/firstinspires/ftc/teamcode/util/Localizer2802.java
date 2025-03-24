@@ -14,10 +14,10 @@ import java.util.List;
 public class Localizer2802{
     public static DcMotor podL, podR, podM; // pod left, pod right, pod middle.
     HardwareMap hardwareMap;
-    public static double C = (35 * 3.14)/8192;
-    public static double Ly = 154.1;
-    public static double Ry = -151.4;
-    public static double Bx = 35;
+    public static double C = (35 * 3.14)/8192; // (r*pi)/N(encoder counts for 1 loop)
+    public static double Ly = 129.5; // distance between L wheels and y
+    public static double Ry = -138.4; // distance between R wheels and y
+    public static double Bx = 44.5; // distance between center wheel and x
 
     public static double X = 0;
     public static double Y = 0;
@@ -100,16 +100,18 @@ public class Localizer2802{
         //rX = relative x
 //        double rX = fwd;
 //        double rY = str;
-        double r0 = fwd/dA;
-        double r1 = str/dA;
+        if(dA!=0) { // arc based calculation
+            double r0 = fwd / dA;
+            double r1 = str / dA;
+            double rX = r0*Math.sin(dA) - r1*(1 - Math.cos(dA));
+            double rY = r1*Math.sin(dA) + r0*(1 - Math.cos(dA));
 
-
-        //relative x and y
-        double relX = r0*Math.sin(dA) - r1*(1-Math.cos(dA));
-        double relY = r1*Math.sin(dA) + r0*(1-Math.cos(dA));
-
-        dX = relX * Math.cos(theta) - relY * Math.sin(theta);
-        dY = relY * Math.cos(theta) + relX * Math.sin(theta);
+            dX = rX*Math.cos(theta) - rY*Math.sin(theta);
+            dY = rX*Math.sin(theta) + rY*Math.cos(theta);
+        }else{ // straight
+            dX = fwd*Math.cos(theta) - str*Math.sin(theta);
+            dY = fwd*Math.sin(theta) + str*Math.cos(theta);
+        }
 
         //upd x and upd y, ipdf theta
         X += dX;
