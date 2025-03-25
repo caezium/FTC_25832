@@ -4,6 +4,8 @@ package org.firstinspires.ftc.teamcode.test;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.util.UpperSlide;
+import org.firstinspires.ftc.teamcode.util.expansion;
+import org.firstinspires.ftc.teamcode.util.control;
 
 @TeleOp(group="Test")
 public class TestUpperSlide extends LinearOpMode {

@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.util.Localizer;
 import org.firstinspires.ftc.teamcode.util.Datalogger;
 
 import java.util.List;
+import org.firstinspires.ftc.teamcode.util.expansion;
+import org.firstinspires.ftc.teamcode.util.control;
 
 @TeleOp(group="Test")
 public class TestEncoder extends LinearOpMode {

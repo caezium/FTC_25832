@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.util.Range;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.firstinspires.ftc.teamcode.util.expansion;
+import org.firstinspires.ftc.teamcode.util.control;
 
 
 @Autonomous(group="Auto")

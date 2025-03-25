@@ -26,6 +26,9 @@ import org.opencv.core.Rect;
 import java.lang.Math;
 import java.util.List;
 
+import org.firstinspires.ftc.teamcode.util.expansion;
+import org.firstinspires.ftc.teamcode.util.control;
+
 @Autonomous(group="Auto")
 public class TestAuto extends LinearOpMode {
     

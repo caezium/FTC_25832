@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.util.Drivetrain;
 import org.firstinspires.ftc.teamcode.util.Localizer;
 import org.firstinspires.ftc.teamcode.util.LowerSlide;
 import org.firstinspires.ftc.teamcode.util.UpperSlide;
+import org.firstinspires.ftc.teamcode.util.expansion;
+import org.firstinspires.ftc.teamcode.util.control;
 
 @TeleOp(group="TeleOp")
 public class Swerve extends LinearOpMode {
