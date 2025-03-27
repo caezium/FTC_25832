@@ -40,7 +40,7 @@ public class Auto extends LinearOpMode {
         waitForStart();
         upslide.closeClaw();
         sleep(2000);
-        upslide.hang();
+        //upslide.hang();
 
 
 

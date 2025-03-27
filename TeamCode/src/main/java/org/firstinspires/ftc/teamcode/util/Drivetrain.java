@@ -14,10 +14,10 @@ public class Drivetrain{
     public static double currX, currY, currTheta;
     public void initialize(HardwareMap map){
         hardwareMap = map;
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, expansion.motor(2));
+        backLeftMotor = hardwareMap.get(DcMotor.class, expansion.motor(3));
+        frontRightMotor = hardwareMap.get(DcMotor.class, expansion.motor(1));
+        backRightMotor = hardwareMap.get(DcMotor.class, expansion.motor(0));
         
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);

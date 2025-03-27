@@ -35,9 +35,9 @@ public class Localizer{
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        podR = hardwareMap.get(DcMotor.class, "podr");
-        podL = hardwareMap.get(DcMotor.class, "backRightMotor");
-        podM = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        podR = hardwareMap.get(DcMotor.class, expansion.motor(0));
+        podL = hardwareMap.get(DcMotor.class, expansion.motor(1));
+        podM = hardwareMap.get(DcMotor.class, expansion.motor(2));
 
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
