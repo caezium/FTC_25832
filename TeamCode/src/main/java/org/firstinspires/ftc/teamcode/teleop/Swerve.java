@@ -24,8 +24,7 @@ public class Swerve extends LinearOpMode {
         upslide.initialize(hardwareMap);
         lowslide.initialize(hardwareMap);
         camera.cameraInit(hardwareMap);
-
-
+        camera.cameraStart();
 
         waitForStart();
 
