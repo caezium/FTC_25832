@@ -94,6 +94,31 @@ public class UpperSlide {
         swing.setPosition(-val+1);
     }
 
+    public void behind(){
+        arm1.setPosition(0.95);
+        arm2.setPosition(0.95);
+    }
+    public void front(){
+        arm1.setPosition(0.2);
+        arm2.setPosition(0.2);
+    }
+
+    public double addArmPos(double pos){
+        double armPos = arm1.getPosition();
+        armPos += pos;
+        armPos = Math.min(1, Math.max(0, armPos));
+        arm1.setPosition(armPos);
+        arm2.setPosition(armPos);
+        return armPos;
+    }
+    public double addSwingPos(double pos){
+        double swingPos = claw.getPosition();
+        swingPos += pos;
+        swingPos = Math.min(1, Math.max(0, swingPos));
+        swing.setPosition(swingPos);
+        return swingPos;
+    }
+
 
     public void openClaw(){ claw.setPosition(1); }
     public void closeClaw(){ claw.setPosition(0); }

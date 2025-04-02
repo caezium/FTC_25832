@@ -5,14 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.util.Localizer2802;
+import org.firstinspires.ftc.teamcode.util.Localizer;
 
 import java.util.List;
 
 @TeleOp(group="TeleOp")
 public class TestOdometryTeleop extends LinearOpMode {
-    Localizer2802 odo = new Localizer2802();
+    Localizer odo = new Localizer();
     @Override
     public void runOpMode() throws InterruptedException {
             List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
@@ -68,9 +67,9 @@ public class TestOdometryTeleop extends LinearOpMode {
 
                 telemetry.addData("Status", "Running");
 
-                telemetry.addData("X", Localizer2802.X);
-                telemetry.addData("Y", Localizer2802.Y);
-                telemetry.addData("Heading", Localizer2802.angleWrap(Localizer2802.theta));
+                telemetry.addData("X", Localizer.X);
+                telemetry.addData("Y", Localizer.Y);
+                telemetry.addData("Heading", Localizer.angleWrap(Localizer.theta));
 
                 telemetry.addData("Recording Rate (Hz)", 1 / elapsedtime.seconds());
                 telemetry.addData("Loop Time (ms)", elapsedtime.milliseconds());
@@ -107,15 +106,15 @@ public class TestOdometryTeleop extends LinearOpMode {
         grid[SIZE/2][SIZE/2] = '+';
 
 
-        int gridX = SIZE/2 + (int)Math.round(Localizer2802.X / SCALE);
-        int gridY = SIZE/2 - (int)Math.round(Localizer2802.Y / SCALE);
+        int gridX = SIZE/2 + (int)Math.round(Localizer.X / SCALE);
+        int gridY = SIZE/2 - (int)Math.round(Localizer.Y / SCALE);
 
 
         gridX = Math.min(Math.max(gridX, 0), SIZE-1);
         gridY = Math.min(Math.max(gridY, 0), SIZE-1);
 
 
-        double heading = Localizer2802.angleWrap(Localizer2802.theta);
+        double heading = Localizer.angleWrap(Localizer.theta);
         char directionChar;
 
 
