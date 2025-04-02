@@ -36,7 +36,7 @@ public class UpperSlide {
         slide2 = hardwareMap.get(DcMotor.class, control.motor(1));
 
         arm1 = hardwareMap.get(ServoImplEx.class, control.servo(2));
-        //arm1.setDirection(ServoImplEx.Direction.REVERSE);
+        arm1.setDirection(ServoImplEx.Direction.FORWARD);
         arm1.setPwmRange(armRange);
 
         arm2 = hardwareMap.get(ServoImplEx.class, expansion.servo(1));
@@ -69,7 +69,7 @@ public class UpperSlide {
         //hang();
     }
     public void pos2(){ distance = Math.round(COUNTS_PER_CM*20); }
-    public void pos3(){ distance = Math.round(COUNTS_PER_CM*30); }
+    public void pos3(){ distance = Math.round(COUNTS_PER_CM*35); }
 
     public void big(double x){
         arm1.setPosition(x);

@@ -38,7 +38,7 @@ public class Swerve extends LinearOpMode {
             if(gamepad2.a){ upslide.front(); }
             if(gamepad2.b){ upslide.behind(); }
 
-            upslide.big(gamepad1.right_trigger);
+//            upslide.big(gamepad1.right_trigger);
             upslide.swing.setPosition(gamepad1.left_trigger);
             if(gamepad1.left_bumper){ upslide.closeClaw(); }
             if(gamepad1.right_bumper){ upslide.openClaw(); }
