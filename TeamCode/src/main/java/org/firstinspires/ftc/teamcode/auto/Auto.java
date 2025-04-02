@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.util.Range;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.firstinspires.ftc.teamcode.util.expansion;
+import org.firstinspires.ftc.teamcode.util.control;
 
 
 @Autonomous(group="Auto")
@@ -38,7 +40,7 @@ public class Auto extends LinearOpMode {
         waitForStart();
         upslide.closeClaw();
         sleep(2000);
-        upslide.hang();
+        //upslide.hang();
 
         while(opModeIsActive()){
             //startHang();

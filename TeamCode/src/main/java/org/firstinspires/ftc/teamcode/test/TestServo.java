@@ -23,6 +23,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+import org.firstinspires.ftc.teamcode.util.expansion;
+import org.firstinspires.ftc.teamcode.util.control;
 
 
 @TeleOp(group="Test")
@@ -34,6 +36,7 @@ public class TestServo extends LinearOpMode {
     public void runOpMode() {
         swervo = hardwareMap.get(ServoImplEx.class, "swervo");
         swervo.setPwmRange(range);
+
         servo = hardwareMap.get(Servo.class, "servo");
         servo.setDirection(Servo.Direction.REVERSE);
 

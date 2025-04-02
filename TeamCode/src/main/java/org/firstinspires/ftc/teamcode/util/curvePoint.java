@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.util;
 
 import org.opencv.core.Point;
 
+
 public class curvePoint {
     public double x;
     public double y;
