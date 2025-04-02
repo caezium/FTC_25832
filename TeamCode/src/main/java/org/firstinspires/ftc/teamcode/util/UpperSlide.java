@@ -36,18 +36,18 @@ public class UpperSlide {
         slide2 = hardwareMap.get(DcMotor.class, control.motor(1));
 
         arm1 = hardwareMap.get(ServoImplEx.class, control.servo(2));
-        arm1.setDirection(ServoImplEx.Direction.REVERSE);
+        //arm1.setDirection(ServoImplEx.Direction.REVERSE);
         arm1.setPwmRange(armRange);
 
         arm2 = hardwareMap.get(ServoImplEx.class, expansion.servo(1));
         arm2.setDirection(ServoImplEx.Direction.REVERSE);
         arm2.setPwmRange(armRange);
 
-        swing = hardwareMap.get(ServoImplEx.class, control.servo(3));
+        swing = hardwareMap.get(ServoImplEx.class, control.servo(1));
         swing.setDirection(ServoImplEx.Direction.FORWARD);
         swing.setPwmRange(swingRange);
 
-        claw = hardwareMap.get(ServoImplEx.class, control.servo(2));
+        claw = hardwareMap.get(ServoImplEx.class, control.servo(3));
         claw.setPwmRange(clawRange);
 
 
@@ -73,7 +73,7 @@ public class UpperSlide {
 
     public void big(double x){
         arm1.setPosition(x);
-        //arm2.setPosition(x);
+        arm2.setPosition(x);
     }
 
     /*
