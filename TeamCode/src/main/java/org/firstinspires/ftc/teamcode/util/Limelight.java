@@ -6,12 +6,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Limelight {
     HardwareMap hardwareMap;
     public Limelight3A limelight;
-    public void cameraStart(HardwareMap map){
+    public void cameraInit(HardwareMap map){
         hardwareMap = map;
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(0);
-        limelight.start();
+    }
 
+    public void cameraStart(){
+        limelight.start();
     }
 
 }

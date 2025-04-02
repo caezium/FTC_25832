@@ -33,11 +33,12 @@ public class Swerve extends LinearOpMode {
         drive.initialize(hardwareMap);
         upslide.initialize(hardwareMap);
         lowslide.initialize(hardwareMap);
-        camera.cameraStart(hardwareMap);
+        camera.cameraInit(hardwareMap);
 
 
         waitForStart();
 
+        camera.cameraStart();
         while (opModeIsActive()) {
 
             if(gamepad1.a){ upslide.pos0(); }
