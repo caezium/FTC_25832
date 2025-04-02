@@ -16,7 +16,7 @@ public class TestLimelight extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        camera.cameraStart(hardwareMap);
+        camera.cameraStart();
 
         waitForStart();
 

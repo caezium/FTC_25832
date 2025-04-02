@@ -139,5 +139,5 @@ public class Camera {
             
         }
     }
-    public int distance(int x, int y){ return (int) Math.sqrt((x-320)*(x-320)+(y-240)*(y-240)); }
+    public int distance(int x, int y){ return (int) Math.sqrt((x-320)*(x-320)+(y-240)*(y-240)); /* distance to center */ }
 }

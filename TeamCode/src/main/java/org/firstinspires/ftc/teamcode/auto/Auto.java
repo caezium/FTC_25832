@@ -42,9 +42,6 @@ public class Auto extends LinearOpMode {
         sleep(2000);
         //upslide.hang();
 
-
-
-
         while(opModeIsActive()){
             //startHang();
             park();

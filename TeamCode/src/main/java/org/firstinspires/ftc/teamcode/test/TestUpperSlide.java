@@ -11,6 +11,10 @@ import org.firstinspires.ftc.teamcode.util.control;
 public class TestUpperSlide extends LinearOpMode {
 
     UpperSlide slide = new UpperSlide();
+    private boolean aPressed = false;
+    private boolean bPressed = false;
+    private boolean xPressed = false;
+    private boolean yPressed = false;
     @Override
     public void runOpMode() {
         slide.initialize(hardwareMap);
@@ -23,6 +27,41 @@ public class TestUpperSlide extends LinearOpMode {
             if(gamepad1.x){ slide.pos1(); }
             if(gamepad1.y){ slide.pos2(); }
             if(gamepad1.b){ slide.pos3(); }
+            if(gamepad2.a) {
+                if(!aPressed) {
+                    slide.addArmPos(0.05);
+                    aPressed = true;
+                }
+            } else {
+                aPressed = false;
+            }
+
+            if(gamepad2.b) {
+                if(!bPressed) {
+                    slide.addArmPos(-0.05);
+                    bPressed = true;
+                }
+            } else {
+                bPressed = false;
+            }
+
+            if(gamepad2.x) {
+                if(!xPressed) {
+                    slide.addSwingPos(0.05);
+                    xPressed = true;
+                }
+            } else {
+                xPressed = false;
+            }
+
+            if(gamepad2.y) {
+                if(!yPressed) {
+                    slide.addSwingPos(-0.05);
+                    yPressed = true;
+                }
+            } else {
+                yPressed = false;
+            }
 
             slide.slide();
             /*
@@ -45,6 +84,8 @@ public class TestUpperSlide extends LinearOpMode {
             telemetry.addData("arm2", slide.arm2.getPosition());
             telemetry.addData("claw", slide.claw.getPosition());
             telemetry.addData("swing", slide.swing.getPosition());
+
+
 
             //telemetry.addData("slide target",slide.distance);
             //telemetry.addData("slide reference",slide.ref);

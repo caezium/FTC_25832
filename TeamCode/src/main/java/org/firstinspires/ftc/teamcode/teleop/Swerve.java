@@ -1,21 +1,13 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.util.Camera;
 import org.firstinspires.ftc.teamcode.util.Drivetrain;
 import org.firstinspires.ftc.teamcode.util.Limelight;
 import org.firstinspires.ftc.teamcode.util.Localizer;
 import org.firstinspires.ftc.teamcode.util.LowerSlide;
 import org.firstinspires.ftc.teamcode.util.UpperSlide;
-import org.firstinspires.ftc.teamcode.util.expansion;
-import org.firstinspires.ftc.teamcode.util.control;
 
 @TeleOp(group="TeleOp")
 public class Swerve extends LinearOpMode {
@@ -25,8 +17,6 @@ public class Swerve extends LinearOpMode {
     LowerSlide lowslide = new LowerSlide();
     Limelight camera = new Limelight();
 
-
-
     @Override
     public void runOpMode() throws InterruptedException {
         odo.initialize(hardwareMap);
@@ -34,7 +24,7 @@ public class Swerve extends LinearOpMode {
         upslide.initialize(hardwareMap);
         lowslide.initialize(hardwareMap);
         camera.cameraInit(hardwareMap);
-
+        camera.cameraStart();
 
         waitForStart();
 
@@ -45,9 +35,10 @@ public class Swerve extends LinearOpMode {
             if(gamepad1.x){ upslide.pos1(); }
             if(gamepad1.y){ upslide.pos2(); }
             if(gamepad1.b){ upslide.pos3(); }
+            if(gamepad2.a){ upslide.front(); }
+            if(gamepad2.b){ upslide.behind(); }
 
-
-            upslide.big(gamepad1.right_trigger);
+//            upslide.big(gamepad1.right_trigger);
             upslide.swing.setPosition(gamepad1.left_trigger);
             if(gamepad1.left_bumper){ upslide.closeClaw(); }
             if(gamepad1.right_bumper){ upslide.openClaw(); }

@@ -36,7 +36,7 @@ public class UpperSlide {
         slide2 = hardwareMap.get(DcMotor.class, control.motor(1));
 
         arm1 = hardwareMap.get(ServoImplEx.class, control.servo(2));
-        //arm1.setDirection(ServoImplEx.Direction.REVERSE);
+        arm1.setDirection(ServoImplEx.Direction.FORWARD);
         arm1.setPwmRange(armRange);
 
         arm2 = hardwareMap.get(ServoImplEx.class, expansion.servo(1));
@@ -69,7 +69,7 @@ public class UpperSlide {
         //hang();
     }
     public void pos2(){ distance = Math.round(COUNTS_PER_CM*20); }
-    public void pos3(){ distance = Math.round(COUNTS_PER_CM*30); }
+    public void pos3(){ distance = Math.round(COUNTS_PER_CM*35); }
 
     public void big(double x){
         arm1.setPosition(x);
@@ -94,6 +94,31 @@ public class UpperSlide {
         swing.setPosition(-val+1);
     }
 
+    public void behind(){
+        arm1.setPosition(0.95);
+        arm2.setPosition(0.95);
+    }
+    public void front(){
+        arm1.setPosition(0.2);
+        arm2.setPosition(0.2);
+    }
+
+    public double addArmPos(double pos){
+        double armPos = arm1.getPosition();
+        armPos += pos;
+        armPos = Math.min(1, Math.max(0, armPos));
+        arm1.setPosition(armPos);
+        arm2.setPosition(armPos);
+        return armPos;
+    }
+    public double addSwingPos(double pos){
+        double swingPos = claw.getPosition();
+        swingPos += pos;
+        swingPos = Math.min(1, Math.max(0, swingPos));
+        swing.setPosition(swingPos);
+        return swingPos;
+    }
+
 
     public void openClaw(){ claw.setPosition(1); }
     public void closeClaw(){ claw.setPosition(0); }
@@ -106,7 +131,7 @@ public class UpperSlide {
 
     public double PID(double refrence, double state) {
         double error = refrence - state;
-        integralSum += error * timer.seconds();
+        integralSum += error * timer.seconds(); //
         double derivative = (error - lastError) / (timer.seconds());
         lastError = error;
         timer.reset();
