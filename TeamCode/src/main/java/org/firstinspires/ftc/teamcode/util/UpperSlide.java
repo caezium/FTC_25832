@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.util.Timeout;
+
+import java.sql.Time;
 
 
 public class UpperSlide {
@@ -60,9 +63,12 @@ public class UpperSlide {
         slide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slide1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
-
-    public void pos0(){ distance = 0; }
+    public void pos0(){
+        distance = Math.round(COUNTS_PER_CM*10);
+        new Timeout(() -> {
+            distance = 0;
+        }, 500);
+    }
     public void pos1(){
         //closeClaw();
         distance = Math.round(COUNTS_PER_CM*10);
@@ -95,14 +101,20 @@ public class UpperSlide {
     }
 
     public void behind(){
-        arm1.setPosition(0.95);
-        arm2.setPosition(0.95);
+        arm1.setPosition(0.1);
+        arm2.setPosition(0.1);
+        swing.setPosition(0.5);
     }
     public void front(){
-        arm1.setPosition(0.2);
-        arm2.setPosition(0.2);
+        arm1.setPosition(0.65);
+        arm2.setPosition(0.65);
+        swing.setPosition(0.6);
     }
-
+    public void keepPosExceptArms(double pos){
+        swing.setPosition(0);
+        arm1.setPosition(0);
+        arm2.setPosition(0);
+    }
     public double addArmPos(double pos){
         double armPos = arm1.getPosition();
         armPos += pos;
@@ -112,7 +124,7 @@ public class UpperSlide {
         return armPos;
     }
     public double addSwingPos(double pos){
-        double swingPos = claw.getPosition();
+        double swingPos = swing.getPosition();
         swingPos += pos;
         swingPos = Math.min(1, Math.max(0, swingPos));
         swing.setPosition(swingPos);
@@ -122,7 +134,7 @@ public class UpperSlide {
 
     public void openClaw(){ claw.setPosition(1); }
     public void closeClaw(){ claw.setPosition(0); }
-    public void slide(){
+    public void updatePID(){
         ref = (slide1.getCurrentPosition() + slide2.getCurrentPosition()) >> 1;
         double power = PID(distance,ref);
         slide1.setPower(power);

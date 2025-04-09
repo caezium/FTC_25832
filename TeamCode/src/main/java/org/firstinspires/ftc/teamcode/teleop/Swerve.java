@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.util.Drivetrain;
@@ -25,21 +26,35 @@ public class Swerve extends LinearOpMode {
         lowslide.initialize(hardwareMap);
         camera.cameraInit(hardwareMap);
         camera.cameraStart();
+        upslide.keepPosExceptArms(0);
 
         waitForStart();
 
         camera.cameraStart();
         while (opModeIsActive()) {
+            if(gamepad2.right_bumper){
+                upslide.openClaw();
+            }
+            if(gamepad2.left_bumper){
+                upslide.closeClaw();
+            }
+
+
+            telemetry.addData("right", gamepad2.right_trigger);
+            telemetry.addData("left", gamepad2.left_trigger);
+
+            telemetry.addData("right", upslide.arm1.getPosition());
+            telemetry.addData("left", upslide.arm2.getPosition());
 
             if(gamepad1.a){ upslide.pos0(); }
             if(gamepad1.x){ upslide.pos1(); }
             if(gamepad1.y){ upslide.pos2(); }
             if(gamepad1.b){ upslide.pos3(); }
-            if(gamepad2.a){ upslide.front(); }
-            if(gamepad2.b){ upslide.behind(); }
+            if(gamepad2.right_trigger > 0){ upslide.behind(); }
+            if(gamepad2.left_trigger > 0){ upslide.front(); }
 
 //            upslide.big(gamepad1.right_trigger);
-            upslide.swing.setPosition(gamepad1.left_trigger);
+//            upslide.swing.setPosition(gamepad1.left_trigger);
             if(gamepad1.left_bumper){ upslide.closeClaw(); }
             if(gamepad1.right_bumper){ upslide.openClaw(); }
 
@@ -49,10 +64,11 @@ public class Swerve extends LinearOpMode {
             if(gamepad2.left_bumper){ lowslide.closeClaw(); }
             if(gamepad2.right_bumper){ lowslide.openClaw(); }
 
-            upslide.slide();
-
-            double angle = camera.limelight.getLatestResult().getPythonOutput()[1];
-
+            upslide.updatePID();
+            try {
+                double angle = camera.limelight.getLatestResult().getPythonOutput()[1];
+            } catch (Exception e){
+            }
 
 
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed

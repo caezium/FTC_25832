@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.util.Localizer;
+import org.firstinspires.ftc.teamcode.util.control;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class TestOdometryTeleop extends LinearOpMode {
             for (LynxModule hub : allHubs) {
                 hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
             }
-            odo.initialize(hardwareMap);
+            odo.initialize(hardwareMap, control.motor(0), control.motor(3), control.motor(2));
 
             ElapsedTime elapsedtime = new ElapsedTime();
             elapsedtime.reset();
