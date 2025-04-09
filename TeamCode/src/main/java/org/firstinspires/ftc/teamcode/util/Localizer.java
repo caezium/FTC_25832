@@ -27,17 +27,16 @@ public class Localizer{
     public static double dL, dR, dM;
 
     IMU imu;
-    
-    public void initialize(HardwareMap map){
+    public void initialize(HardwareMap map, String podLname, String podRname, String podMname){
         hardwareMap = map;
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        podR = hardwareMap.get(DcMotor.class, expansion.motor(0));
-        podL = hardwareMap.get(DcMotor.class, expansion.motor(1));
-        podM = hardwareMap.get(DcMotor.class, expansion.motor(2));
+        podR = hardwareMap.get(DcMotor.class, podRname);
+        podL = hardwareMap.get(DcMotor.class, podLname);
+        podM = hardwareMap.get(DcMotor.class, podMname);
 
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
@@ -47,6 +46,9 @@ public class Localizer{
         imu.resetYaw();
     }
 
+    public void initialize(HardwareMap map){
+        initialize(map, expansion.motor(1), expansion.motor(0), expansion.motor(2));
+    }
 
     public void resetIMU(){ imu.resetYaw(); }
 

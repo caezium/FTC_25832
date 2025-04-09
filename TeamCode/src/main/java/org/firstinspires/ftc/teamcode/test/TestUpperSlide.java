@@ -13,8 +13,8 @@ public class TestUpperSlide extends LinearOpMode {
     UpperSlide slide = new UpperSlide();
     private boolean aPressed = false;
     private boolean bPressed = false;
-    private boolean xPressed = false;
-    private boolean yPressed = false;
+    private boolean cPressed = false;
+    private boolean dPressed = false;
     @Override
     public void runOpMode() {
         slide.initialize(hardwareMap);
@@ -27,7 +27,7 @@ public class TestUpperSlide extends LinearOpMode {
             if(gamepad1.x){ slide.pos1(); }
             if(gamepad1.y){ slide.pos2(); }
             if(gamepad1.b){ slide.pos3(); }
-            if(gamepad2.a) {
+            if(gamepad1.right_bumper) {
                 if(!aPressed) {
                     slide.addArmPos(0.05);
                     aPressed = true;
@@ -36,7 +36,7 @@ public class TestUpperSlide extends LinearOpMode {
                 aPressed = false;
             }
 
-            if(gamepad2.b) {
+            if(gamepad1.left_bumper) {
                 if(!bPressed) {
                     slide.addArmPos(-0.05);
                     bPressed = true;
@@ -45,25 +45,25 @@ public class TestUpperSlide extends LinearOpMode {
                 bPressed = false;
             }
 
-            if(gamepad2.x) {
-                if(!xPressed) {
+            if(gamepad1.right_trigger > 0) {
+                if(!cPressed) {
                     slide.addSwingPos(0.05);
-                    xPressed = true;
+                    cPressed = true;
                 }
             } else {
-                xPressed = false;
+                cPressed = false;
             }
 
-            if(gamepad2.y) {
-                if(!yPressed) {
+            if(gamepad1.left_trigger > 0) {
+                if(!dPressed) {
                     slide.addSwingPos(-0.05);
-                    yPressed = true;
+                    dPressed = true;
                 }
             } else {
-                yPressed = false;
+                dPressed = false;
             }
 
-            slide.slide();
+            slide.updatePID();
             /*
             if(gamepad1.dpad_left){ slide.closeClaw(); }
             if(gamepad1.dpad_right){ slide.openClaw(); }
@@ -72,8 +72,8 @@ public class TestUpperSlide extends LinearOpMode {
             if(gamepad1.dpad_down){ slide.grab(); }
             */
 
-            slide.big(-gamepad1.left_stick_y);
-            slide.swing.setPosition(-gamepad1.right_stick_y);
+//            slide.big(-gamepad1.left_stick_y);
+//            slide.swing.setPosition(-gamepad1.right_stick_y);
             if(gamepad1.dpad_left){ slide.closeClaw(); }
             if(gamepad1.dpad_right){ slide.openClaw(); }
 
