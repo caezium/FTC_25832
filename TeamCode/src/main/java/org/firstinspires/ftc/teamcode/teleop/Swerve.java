@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.util.Drivetrain;
@@ -39,7 +38,6 @@ public class Swerve extends LinearOpMode {
                 upslide.closeClaw();
             }
 
-
             telemetry.addData("right", gamepad2.right_trigger);
             telemetry.addData("left", gamepad2.left_trigger);
 
@@ -50,6 +48,8 @@ public class Swerve extends LinearOpMode {
             if(gamepad1.x){ upslide.pos1(); }
             if(gamepad1.y){ upslide.pos2(); }
             if(gamepad1.b){ upslide.pos3(); }
+            if(gamepad1.right_trigger>0) { lowslide.pos_grab(); }
+            if (gamepad1.left_trigger>0){ lowslide.pos_up(); }
             if(gamepad2.right_trigger > 0){ upslide.behind(); }
             if(gamepad2.left_trigger > 0){ upslide.front(); }
 
@@ -58,9 +58,9 @@ public class Swerve extends LinearOpMode {
             if(gamepad1.left_bumper){ upslide.closeClaw(); }
             if(gamepad1.right_bumper){ upslide.openClaw(); }
 
-            lowslide.big(-gamepad2.left_stick_y);
-            lowslide.small(-gamepad2.right_stick_y);
-            lowslide.spinclaw.setPosition(gamepad2.right_trigger);
+//            lowslide.big(-gamepad2.left_stick_y);
+//            lowslide.small(-gamepad2.right_stick_y);
+//            lowslide.spinclaw.setPosition(gamepad2.right_trigger);
             if(gamepad2.left_bumper){ lowslide.closeClaw(); }
             if(gamepad2.right_bumper){ lowslide.openClaw(); }
 

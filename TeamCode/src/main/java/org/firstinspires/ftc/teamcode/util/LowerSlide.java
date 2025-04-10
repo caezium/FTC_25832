@@ -34,7 +34,7 @@ public class LowerSlide {
         //slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        spinclaw = hardwareMap.get(ServoImplEx.class, expansion.servo(2));
+        spinclaw = hardwareMap.get(ServoImplEx.class, expansion.servo(1));
         claw = hardwareMap.get(ServoImplEx.class, expansion.servo(0));
 
         //part2.setDirection(ServoImplEx.Direction.REVERSE);
@@ -64,6 +64,15 @@ public class LowerSlide {
     public void pos3(){ spinclaw.setPosition(0.75);}
 
     //public void pos4(){ spinclaw.setPosition(0);}
+
+    public void pos_grab() {
+        big(0.9);
+        small(0.8);
+    }
+    public void pos_up() {
+        big(0.5);
+        small(0.5);
+    }
 
     public void closeClaw(){
         claw.setPosition(1);
