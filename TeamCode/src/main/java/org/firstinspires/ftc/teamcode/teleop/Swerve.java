@@ -26,17 +26,18 @@ public class Swerve extends LinearOpMode {
         camera.cameraInit(hardwareMap);
         camera.cameraStart();
         upslide.keepPosExceptArms(0);
+        lowslide.keepPosExceptArms(0);
 
         waitForStart();
 
         camera.cameraStart();
         while (opModeIsActive()) {
-            if(gamepad2.right_bumper){
-                upslide.openClaw();
-            }
-            if(gamepad2.left_bumper){
-                upslide.closeClaw();
-            }
+//            if(gamepad2.right_bumper){
+//                upslide.openClaw();
+//            }
+//            if(gamepad2.left_bumper){
+//                upslide.closeClaw();
+//            }
 
             telemetry.addData("right", gamepad2.right_trigger);
             telemetry.addData("left", gamepad2.left_trigger);
@@ -50,21 +51,27 @@ public class Swerve extends LinearOpMode {
             if(gamepad1.b){ upslide.pos3(); }
             if(gamepad1.right_trigger>0) { lowslide.pos_grab(); }
             if (gamepad1.left_trigger>0){ lowslide.pos_up(); }
+            if (gamepad2.x) { lowslide.setSlidePos1(); }
+            if (gamepad2.y) { lowslide.setSlidePos2(); }
             if(gamepad2.right_trigger > 0){ upslide.behind(); }
             if(gamepad2.left_trigger > 0){ upslide.front(); }
+            if(gamepad1.dpad_down) { lowslide.spinclawSetPositionDeg(0); }
+            if(gamepad1.dpad_right) { lowslide.spinclawSetPositionDeg(45); }
+            if(gamepad1.dpad_up) { lowslide.spinclawSetPositionDeg(90); }
 
 //            upslide.big(gamepad1.right_trigger);
 //            upslide.swing.setPosition(gamepad1.left_trigger);
-            if(gamepad1.left_bumper){ upslide.closeClaw(); }
-            if(gamepad1.right_bumper){ upslide.openClaw(); }
+            if(gamepad2.left_bumper){ upslide.closeClaw(); }
+            if(gamepad2.right_bumper){ upslide.openClaw(); }
 
 //            lowslide.big(-gamepad2.left_stick_y);
 //            lowslide.small(-gamepad2.right_stick_y);
 //            lowslide.spinclaw.setPosition(gamepad2.right_trigger);
-            if(gamepad2.left_bumper){ lowslide.closeClaw(); }
-            if(gamepad2.right_bumper){ lowslide.openClaw(); }
+            if(gamepad1.left_bumper){ lowslide.closeClaw(); }
+            if(gamepad1.right_bumper){ lowslide.openClaw(); }
 
             upslide.updatePID();
+            lowslide.updatePID();
             try {
                 double angle = camera.limelight.getLatestResult().getPythonOutput()[1];
             } catch (Exception e){
@@ -103,6 +110,10 @@ public class Swerve extends LinearOpMode {
             telemetry.addData("small arm", upslide.swing.getPosition());
             telemetry.addData("Heading", botHeading);
             telemetry.addData("Status", "Running");
+
+            telemetry.addData("Distance", lowslide.distance);
+            telemetry.addData("State", lowslide.slide.getCurrentPosition());
+            telemetry.addData("Power", lowslide.PID(lowslide.distance, lowslide.slide.getCurrentPosition()));
 
             telemetry.update();
         }

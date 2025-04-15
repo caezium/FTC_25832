@@ -103,7 +103,7 @@ public class UpperSlide {
     public void behind(){
         arm1.setPosition(0.1);
         arm2.setPosition(0.1);
-        swing.setPosition(0.5);
+        swing.setPosition(0.1);
     }
     public void front(){
         arm1.setPosition(0.65);

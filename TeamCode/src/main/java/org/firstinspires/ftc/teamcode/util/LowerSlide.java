@@ -1,27 +1,43 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class LowerSlide {
 
+    //double Kp = PIDConstant.Kp;
+    double Kp = 0.02;
+    double Ki = PIDConstant.Ki;
+    double Kd = PIDConstant.Kd;
+    double lastError;
+    ElapsedTime timer = new ElapsedTime();
+    double integralSum = 0;
     static final double     PI=3.14;
     static final double     COUNTS_PER_MOTOR_REV    = 28.0;
-    static final double     WHEEL_CIRCUMFERENCE_MM  = 40.0 * PI;
-    static final double     DRIVE_GEAR_REDUCTION    = 18.88;
+//    static final double     WHEEL_CIRCUMFERENCE_MM  = 40.0 * PI;
+//    static final double     DRIVE_GEAR_REDUCTION    = 18.88;
+    static final double     WHEEL_CIRCUMFERENCE_MM  = 37.0 * PI;
+    static final double     DRIVE_GEAR_REDUCTION    = 4.0;
     static final double     COUNTS_PER_WHEEL_REV    = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
     static final double     COUNTS_PER_CM           = (COUNTS_PER_WHEEL_REV / WHEEL_CIRCUMFERENCE_MM)*10;
 
     HardwareMap hardwareMap;
     public ServoImplEx part1, part2, part3, spinclaw, claw;
-    DcMotor slide;
+
+    public DcMotor slide;
 
     PwmControl.PwmRange v4range = new PwmControl.PwmRange(500, 2500);
     PwmControl.PwmRange downrange = new PwmControl.PwmRange(500, 900);
 
     PwmControl.PwmRange clawRange = new PwmControl.PwmRange(500, 1150);
+
+    public double distance = 0;
+    public double ref = 0;
 
     public void initialize(HardwareMap map) {
         hardwareMap = map;
@@ -34,10 +50,17 @@ public class LowerSlide {
         //slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        spinclaw = hardwareMap.get(ServoImplEx.class, expansion.servo(1));
+        slide = hardwareMap.get(DcMotor.class, control.motor(2));
+        slide.setDirection(DcMotor.Direction.FORWARD);
+        slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        spinclaw = hardwareMap.get(ServoImplEx.class, expansion.servo(2));
         claw = hardwareMap.get(ServoImplEx.class, expansion.servo(0));
 
         //part2.setDirection(ServoImplEx.Direction.REVERSE);
+        part1.setDirection(Servo.Direction.FORWARD);
+        part2.setDirection(Servo.Direction.FORWARD);
         part1.setPwmRange(v4range);
         part2.setPwmRange(v4range);
         //part3.setPwmRange(v4range);
@@ -53,17 +76,27 @@ public class LowerSlide {
         slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    public void keepPosExceptArms(double pos) {
+        part1.setPosition(0);
+        part2.setPosition(0);
+    }
+
     public void big(double val){ part1.setPosition(val); }
     public void small(double val){ part2.setPosition(val); }
 
     public void smallclaw(double val){ part3.setPosition(val); }
 
-    public void pos0(){ spinclaw.setPosition(1);}
-    public void pos1(){ spinclaw.setPosition(0.25);}
-    public void pos2(){ spinclaw.setPosition(0.5);}
-    public void pos3(){ spinclaw.setPosition(0.75);}
+    // abandoned
+//    public void pos0(){ spinclaw.setPosition(1);}
+//    public void pos1(){ spinclaw.setPosition(0.25);}
+//    public void pos2(){ spinclaw.setPosition(0.5);}
+//    public void pos3(){ spinclaw.setPosition(0.75);}
 
-    //public void pos4(){ spinclaw.setPosition(0);}
+    public void spinclawSetPositionDeg( double degree ){
+        spinclaw.setPosition(degree/270);
+    }
+
+    public void pos4(){ spinclaw.setPosition(0);}
 
     public void pos_grab() {
         big(0.9);
@@ -74,6 +107,14 @@ public class LowerSlide {
         small(0.5);
     }
 
+    public void setSlidePos1(){
+        distance = Math.round(COUNTS_PER_CM * 15);
+    }
+
+    public void setSlidePos2(){
+        distance = 0;
+    }
+
     public void closeClaw(){
         claw.setPosition(1);
     }
@@ -81,4 +122,18 @@ public class LowerSlide {
         claw.setPosition(0);
     }
 
+    public void updatePID(){
+        ref = slide.getCurrentPosition();
+        double power = PID(distance,ref);
+        slide.setPower(power);
+    }
+
+    public double PID(double refrence, double state) {
+        double error = refrence - state;
+        integralSum += error * timer.seconds(); //
+        double derivative = (error - lastError) / (timer.seconds());
+        lastError = error;
+        timer.reset();
+        return (error * Kp) + (derivative * Kd) + (integralSum * Ki);
+    }
 }
