@@ -75,7 +75,7 @@ public class UpperSlide {
         //hang();
     }
     public void pos2(){ distance = Math.round(COUNTS_PER_CM*20); }
-    public void pos3(){ distance = Math.round(COUNTS_PER_CM*35); }
+    public void pos3(){ distance = Math.round(COUNTS_PER_CM*50); }
 
     public void big(double x){
         arm1.setPosition(x);
@@ -108,7 +108,7 @@ public class UpperSlide {
     public void front(){
         arm1.setPosition(0.65);
         arm2.setPosition(0.65);
-        swing.setPosition(0.6);
+        swing.setPosition(0.4);
     }
     public void keepPosExceptArms(double pos){
         swing.setPosition(0);

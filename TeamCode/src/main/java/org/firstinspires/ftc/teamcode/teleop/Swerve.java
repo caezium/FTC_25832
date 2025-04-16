@@ -17,6 +17,13 @@ public class Swerve extends LinearOpMode {
     LowerSlide lowslide = new LowerSlide();
     Limelight camera = new Limelight();
 
+    double lastTimeGP1LeftBumperCalled=0;
+    double lastTimeGP2LeftBumperCalled=0;
+    boolean upClawIsOpen=false;
+    boolean lowClawIsOpen=false;
+
+    final double buttonPressIntervalMS=80;
+
     @Override
     public void runOpMode() throws InterruptedException {
         odo.initialize(hardwareMap);
@@ -45,14 +52,14 @@ public class Swerve extends LinearOpMode {
             telemetry.addData("right", upslide.arm1.getPosition());
             telemetry.addData("left", upslide.arm2.getPosition());
 
-            if(gamepad1.a){ upslide.pos0(); }
-            if(gamepad1.x){ upslide.pos1(); }
-            if(gamepad1.y){ upslide.pos2(); }
-            if(gamepad1.b){ upslide.pos3(); }
+            if(gamepad2.a){ upslide.pos0(); }
+            if(gamepad2.x){ upslide.pos1(); }
+            if(gamepad2.y){ upslide.pos2(); }
+            if(gamepad2.b){ upslide.pos3(); }
             if(gamepad1.right_trigger>0) { lowslide.pos_grab(); }
             if (gamepad1.left_trigger>0){ lowslide.pos_up(); }
-            if (gamepad2.x) { lowslide.setSlidePos1(); }
-            if (gamepad2.y) { lowslide.setSlidePos2(); }
+            if (gamepad1.x) { lowslide.setSlidePos1(); }
+            if (gamepad1.y) { lowslide.setSlidePos2(); }
             if(gamepad2.right_trigger > 0){ upslide.behind(); }
             if(gamepad2.left_trigger > 0){ upslide.front(); }
             if(gamepad1.dpad_down) { lowslide.spinclawSetPositionDeg(0); }
@@ -61,14 +68,34 @@ public class Swerve extends LinearOpMode {
 
 //            upslide.big(gamepad1.right_trigger);
 //            upslide.swing.setPosition(gamepad1.left_trigger);
-            if(gamepad2.left_bumper){ upslide.closeClaw(); }
-            if(gamepad2.right_bumper){ upslide.openClaw(); }
+
 
 //            lowslide.big(-gamepad2.left_stick_y);
 //            lowslide.small(-gamepad2.right_stick_y);
 //            lowslide.spinclaw.setPosition(gamepad2.right_trigger);
-            if(gamepad1.left_bumper){ lowslide.closeClaw(); }
-            if(gamepad1.right_bumper){ lowslide.openClaw(); }
+
+//            if(gamepad2.left_bumper){ upslide.closeClaw(); }
+//            if(gamepad2.right_bumper){ upslide.openClaw(); }
+//            if(gamepad1.left_bumper){ lowslide.closeClaw(); }
+//            if(gamepad1.right_bumper){ lowslide.openClaw(); }
+
+            double time=System.currentTimeMillis();
+            if (gamepad1.left_bumper) {
+                if (time-lastTimeGP1LeftBumperCalled>buttonPressIntervalMS) {
+                    lowClawIsOpen = !lowClawIsOpen;
+                }
+                lastTimeGP1LeftBumperCalled = time;
+            }
+            if (gamepad2.left_bumper) {
+                if (time-lastTimeGP2LeftBumperCalled>buttonPressIntervalMS) {
+                    upClawIsOpen = !upClawIsOpen;
+                }
+                lastTimeGP2LeftBumperCalled = time;
+            }
+            if (lowClawIsOpen) lowslide.openClaw();
+            else lowslide.closeClaw();
+            if (upClawIsOpen) upslide.openClaw();
+            else upslide.closeClaw();
 
             upslide.updatePID();
             lowslide.updatePID();
@@ -111,9 +138,9 @@ public class Swerve extends LinearOpMode {
             telemetry.addData("Heading", botHeading);
             telemetry.addData("Status", "Running");
 
-            telemetry.addData("Distance", lowslide.distance);
-            telemetry.addData("State", lowslide.slide.getCurrentPosition());
-            telemetry.addData("Power", lowslide.PID(lowslide.distance, lowslide.slide.getCurrentPosition()));
+//            telemetry.addData("Distance", lowslide.distance);
+//            telemetry.addData("State", lowslide.slide.getCurrentPosition());
+//            telemetry.addData("Power", lowslide.PID(lowslide.distance, lowslide.slide.getCurrentPosition()));
 
             telemetry.update();
         }
