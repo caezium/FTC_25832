@@ -71,11 +71,11 @@ public class UpperSlide {
     }
     public void pos1(){
         //closeClaw();
-        distance = Math.round(COUNTS_PER_CM*10);
+        distance = Math.round(COUNTS_PER_CM*42);
         //hang();
     }
-    public void pos2(){ distance = Math.round(COUNTS_PER_CM*20); }
-    public void pos3(){ distance = Math.round(COUNTS_PER_CM*50); }
+    public void pos2(){ distance = Math.round(COUNTS_PER_CM*40); }
+    public void pos3(){ distance = Math.round(COUNTS_PER_CM*45); }
 
     public void big(double x){
         arm1.setPosition(x);
@@ -106,9 +106,9 @@ public class UpperSlide {
         swing.setPosition(0.1);
     }
     public void front(){
-        arm1.setPosition(0.65);
-        arm2.setPosition(0.65);
-        swing.setPosition(0.4);
+        arm1.setPosition(0.60);
+        arm2.setPosition(0.60);
+        swing.setPosition(0.3);
     }
     public void keepPosExceptArms(double pos){
         swing.setPosition(0);

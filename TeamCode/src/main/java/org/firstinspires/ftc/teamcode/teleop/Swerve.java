@@ -35,9 +35,15 @@ public class Swerve extends LinearOpMode {
         upslide.keepPosExceptArms(0);
         lowslide.keepPosExceptArms(0);
 
+        upslide.front();
+        lowslide.pos_up();
+
+
+
         waitForStart();
 
         camera.cameraStart();
+
         while (opModeIsActive()) {
 //            if(gamepad2.right_bumper){
 //                upslide.openClaw();
@@ -96,6 +102,14 @@ public class Swerve extends LinearOpMode {
             else lowslide.closeClaw();
             if (upClawIsOpen) upslide.openClaw();
             else upslide.closeClaw();
+
+            if (gamepad1.left_bumper) {
+                lowslide.pos_intake();
+            }
+            if (gamepad2.left_bumper) {
+                lowslide.pos_outtake();
+            }
+
 
             upslide.updatePID();
             lowslide.updatePID();

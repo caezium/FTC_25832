@@ -51,7 +51,7 @@ public class LowerSlide {
         //slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         slide = hardwareMap.get(DcMotor.class, control.motor(2));
-        slide.setDirection(DcMotor.Direction.FORWARD);
+        slide.setDirection(DcMotor.Direction.REVERSE);
         slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -103,6 +103,15 @@ public class LowerSlide {
         small(0.8);
     }
     public void pos_up() {
+        big(0.5);
+        small(0.8);
+    }
+
+    public void pos_intake() {
+        big(0.5);
+        small(0.5);
+    }
+    public void pos_outtake() {
         big(0.5);
         small(0.5);
     }
