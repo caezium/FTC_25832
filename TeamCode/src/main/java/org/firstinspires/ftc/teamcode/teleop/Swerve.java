@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.util.Limelight;
 import org.firstinspires.ftc.teamcode.util.Localizer;
 import org.firstinspires.ftc.teamcode.util.LowerSlide;
 import org.firstinspires.ftc.teamcode.util.UpperSlide;
+import org.firstinspires.ftc.teamcode.util.Interval;
 
 @TeleOp(group="TeleOp")
 public class Swerve extends LinearOpMode {
@@ -16,7 +17,10 @@ public class Swerve extends LinearOpMode {
     UpperSlide upslide = new UpperSlide();
     LowerSlide lowslide = new LowerSlide();
     Limelight camera = new Limelight();
-
+    double angleAccum = 0;
+    double angleNum = 1;
+    boolean adjust = false;
+    static final double ANGLE_OFFSET = 55;
     double lastTimeGP1LeftBumperCalled=0;
     double lastTimeGP2LeftBumperCalled=0;
     boolean upClawIsOpen=false;
@@ -30,18 +34,31 @@ public class Swerve extends LinearOpMode {
         drive.initialize(hardwareMap);
         upslide.initialize(hardwareMap);
         lowslide.initialize(hardwareMap);
-        camera.cameraInit(hardwareMap);
+        camera.initialize(hardwareMap);
         camera.cameraStart();
+
         upslide.keepPosExceptArms(0);
         lowslide.keepPosExceptArms(0);
 
+        upslide.front();
+        lowslide.pos_up();
         waitForStart();
 
         camera.cameraStart();
+        Interval interval = new Interval(() -> {
+            if (adjust) {
+                double posAngle = angleAccum / angleNum;
+                posAngle = Math.min(Math.max(posAngle, 0), 270);
+                lowslide.spinclawSetPositionDeg(posAngle);
+            }
+            angleAccum = 0;
+            angleNum = 0;
+        }, 500);
         while (opModeIsActive()) {
-//            if(gamepad2.right_bumper){
-//                upslide.openClaw();
-//            }
+            if(gamepad1.right_bumper){
+                lowslide.pos_hover();
+                adjust = true;
+            }
 //            if(gamepad2.left_bumper){
 //                upslide.closeClaw();
 //            }
@@ -56,8 +73,8 @@ public class Swerve extends LinearOpMode {
             if(gamepad2.x){ upslide.pos1(); }
             if(gamepad2.y){ upslide.pos2(); }
             if(gamepad2.b){ upslide.pos3(); }
-            if(gamepad1.right_trigger>0) { lowslide.pos_grab(); }
-            if (gamepad1.left_trigger>0){ lowslide.pos_up(); }
+            if(gamepad1.right_trigger>0) { lowslide.pos_grab(); adjust = false; }
+            if (gamepad1.left_trigger>0){ lowslide.pos_up();  adjust = false; lowslide.spinclawSetPositionDeg(0);}
             if (gamepad1.x) { lowslide.setSlidePos1(); }
             if (gamepad1.y) { lowslide.setSlidePos2(); }
             if(gamepad2.right_trigger > 0){ upslide.behind(); }
@@ -66,6 +83,11 @@ public class Swerve extends LinearOpMode {
             if(gamepad1.dpad_right) { lowslide.spinclawSetPositionDeg(45); }
             if(gamepad1.dpad_up) { lowslide.spinclawSetPositionDeg(90); }
 
+            double angle = camera.getAngle(); // -90 ~ 90
+            angle = angle + ANGLE_OFFSET; // 0 ~ 180
+            angleAccum += angle;
+            angleNum += 1;
+            telemetry.addData("angle", angle);
 //            upslide.big(gamepad1.right_trigger);
 //            upslide.swing.setPosition(gamepad1.left_trigger);
 
@@ -99,10 +121,9 @@ public class Swerve extends LinearOpMode {
 
             upslide.updatePID();
             lowslide.updatePID();
-            try {
-                double angle = camera.limelight.getLatestResult().getPythonOutput()[1];
-            } catch (Exception e){
-            }
+
+
+
 
 
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
