@@ -15,11 +15,11 @@ public class TestLimelight extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        camera.initialize(hardwareMap);
 
-        camera.cameraStart();
 
         waitForStart();
-
+        camera.cameraStart();
         while(opModeIsActive()) {
 
             LLStatus status = camera.limelight.getStatus();
@@ -30,10 +30,12 @@ public class TestLimelight extends LinearOpMode {
             telemetry.addData("Pipeline", "Index: %d, Type: %s",
                     status.getPipelineIndex(), status.getPipelineType());
 
-            LLResult result = camera.limelight.getLatestResult();
-
-            telemetry.addData("result", java.util.Arrays.toString(result.getPythonOutput()));
-
+//            LLResult result = camera.limelight.getLatestResult();
+//
+//            telemetry.addData("result", java.util.Arrays.toString(result.getPythonOutput()));
+            telemetry.addData("Angle", camera.getAngle());
+            telemetry.addData("isRunning", camera.limelight.isRunning());
+            telemetry.addData("Python Output", java.util.Arrays.toString(camera.limelight.getLatestResult().getPythonOutput()));
             telemetry.update();
         }
     }
